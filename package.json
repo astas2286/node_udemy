@@ -1,0 +1,16 @@
+{
+  "scripts": {
+    "start": "SET NODE_ENV=development&&nodemon server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "morgan": "^1.10.0"
+  },
+  "name": "natours",
+  "version": "1.0.0",
+  "description": "Learning NodeJS and MongoDB",
+  "main": "app.js",
+  "devDependencies": {},
+  "author": "Stanislav Afanasiev",
+  "license": "ISC"
+}
