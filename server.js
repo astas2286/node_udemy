@@ -12,10 +12,25 @@ mongoose.connect(DB, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false
-}).then(con => {
-  console.log(con.connection)
-  console.log('CONNECTED TO DB');
+}).then(() => console.log('CONNECTED TO DB SUCCESSFUL!'))
+
+const tourSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: [true, 'A tour must have a name!'],
+    unique: true
+  },
+  rating: {
+    type: Number,
+    default: 4.5
+  },
+  price: {
+    type: Number,
+    required: [true, 'A tour must have a price!']
+  }
 })
+
+const Tour = mongoose.model('Tour', tourSchema)
 
 const port = process.env.PORT || 3007;
 app.listen(port, () => {
