@@ -35,8 +35,19 @@ exports.getAllTours = async (req, res) => {
         } else {
             query = query.select('-__v')
         }
-// to exclude something just use '-'
+        // to exclude something just use '-'
 
+        // 4) Pagination
+        const page = req.query.page * 1 || 1
+        const limit = req.query.limit * 1 || 100
+        const skip = (page - 1) * limit
+
+        query = query.skip(skip).limit(limit)
+
+        if (req.query.page) {
+            const numberOfTours = await Tour.countDocuments()
+            if (skip >= numberOfTours) throw new Error('No more tours are available!')
+        }
 
         // const tours = await Tour.find({
         //     duration: 5,
