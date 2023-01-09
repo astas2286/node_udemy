@@ -1,6 +1,6 @@
 const fs = require('fs')
 
-const tours = JSON.parse(fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`))
+const users = JSON.parse(fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`))
 
 exports.getAllUsers = (req, res) => {
     res.status(500).json({
