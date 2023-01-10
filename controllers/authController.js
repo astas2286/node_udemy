@@ -1,3 +1,6 @@
+const {
+    promisify
+} = require('util') // promisify if built in NODE function to handle promises
 const jwt = require('jsonwebtoken')
 const User = require('./../models/userModel')
 const catchAsync = require('./../utils/catchAsync')
@@ -58,4 +61,34 @@ exports.login = catchAsync(async (req, res, next) => {
         status: 'success',
         token
     })
+})
+
+exports.protect = catchAsync(async (req, res, next) => {
+    //1) Getting the token and check if it`s there
+    let token
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+        token = req.headers.authorization.split(' ')[1]
+    }
+    if (!token) {
+        return next(new AppError('You are not logged in! Please login to get access!', 401))
+    }
+    //2) token verification
+    const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET)
+    // There are two sets of brackets because this part:
+    // promisify(jwt.verify) Returns the promisified version of jwt.verify as a function and this part:
+    // (token, process.env.JWT_SECRET) Executes that function.
+
+    //3) check if user still exists
+    const currentUser = await User.findById(decoded.id)
+    if (!currentUser) {
+        return next(new AppError('The token does no longer exists!', 401))
+    }
+    //4) Check if user changed password after the token was issued
+    if(currentUser.changedPasswordAfter(decoded.iat)) {
+        return next(new AppError('User recently changed passport, Please login again!', 401))
+    }
+
+    //GRANT ACCESS TO PROTECTED ROUTE
+    req.user = currentUser
+    next()
 })
