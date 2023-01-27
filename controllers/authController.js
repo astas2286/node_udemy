@@ -84,7 +84,7 @@ exports.protect = catchAsync(async (req, res, next) => {
         return next(new AppError('The token does no longer exists!', 401))
     }
     //4) Check if user changed password after the token was issued
-    if(currentUser.changedPasswordAfter(decoded.iat)) {
+    if (currentUser.changedPasswordAfter(decoded.iat)) {
         return next(new AppError('User recently changed passport, Please login again!', 401))
     }
 
@@ -94,11 +94,30 @@ exports.protect = catchAsync(async (req, res, next) => {
 })
 
 exports.restrictTo = (...roles) => {
-    return (req,res,next) =>{
+    return (req, res, next) => {
         //roles is an array ['admin', 'lead-guide']
-        if(!roles.includes(req.user.role)){
+        if (!roles.includes(req.user.role)) {
             return next(new AppError('You have no permission for this action!', 403))
         }
         next()
     }
+}
+
+exports.forgotPassword = catchAsync(async (req, res, next) => {
+    //1) Get user based on POSTed email
+    const user = await User.findOne({
+        email: req.body.email
+    })
+    if (!user) {
+        return next(new AppError('There is no user with that email!', 404))
+    }
+    //2)Generate the random token
+    const resetToken = user.createPasswordResetToken()
+
+    await user.save({validateBeforeSave: false}) // this turns off all validators
+    //3)Send it to user
+})
+
+exports.resetPassword = (req, res, next) => {
+
 }
