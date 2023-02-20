@@ -15,7 +15,7 @@
     "slugify": "^1.6.5",
     "validator": "^13.7.0"
   },
-  "devDpendencies": {
+  "devDependencies": {
     "eslint": "^8.27.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.5.0",
@@ -24,7 +24,9 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.31.10",
-    "prettier": "^2.7.1"
+    "prettier": "^2.7.1",
+    "ndb": "^1.1.5",
+    "nodemon": "^2.0.20"
   },
   "name": "natours",
   "version": "1.0.0",
@@ -34,9 +36,5 @@
   "license": "ISC",
   "engines": {
     "node": ">=10.0.0"
-  },
-  "devDependencies": {
-    "ndb": "^1.1.5",
-    "nodemon": "^2.0.20"
   }
 }
