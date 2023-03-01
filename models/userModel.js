@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please enter a password'],
         minlength: 8,
-        select: false // this option not alow client to see the password
+        select: false // this option not alow client to see the password(write "+password" if you want it to be visible)
     },
     passwordConfirm: {
         type: String,
