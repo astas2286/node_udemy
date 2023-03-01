@@ -41,7 +41,12 @@ const userSchema = new mongoose.Schema({
     },
     passwordChangedAt: Date,
     passwordResetToken: String,
-    passwordResetExpires: Date
+    passwordResetExpires: Date,
+    active: {
+        type: Boolean,
+        default: true,
+        select: false
+    }
 })
 
 userSchema.pre('save', async function (next) {
@@ -58,9 +63,14 @@ userSchema.pre('save', async function (next) {
 
 userSchema.pre('save', async function (next) {
     // added this.isNew because this is used only for "forgot password" but not for creating new user
-    if (!this.isModified('password') || this.isNew) return next() 
+    if (!this.isModified('password') || this.isNew) return next()
 
     this.passwordChangedAt = Date.now() - 1000 // 1 sec is for token to be created
+    next()
+})
+
+userSchema.pre(/^find/, function (next) {
+    this.find({ active: { $ne: false } }) // to show only active users
     next()
 })
 
