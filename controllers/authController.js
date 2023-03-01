@@ -17,14 +17,13 @@ const signToken = id => {
 
 
 exports.signup = catchAsync(async (req, res, next) => {
-    const newUser = await User.create(req.body
-        //     {
-        //     name: req.body.name,
-        //     email: req.body.email,
-        //     password: req.body.password,
-        //     passwordConfirm: req.body.passwordConfirm
-        // }
-    )
+    // const newUser = await User.create(req.body) // unsafe
+    const newUser = await User.create({
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password,
+        passwordConfirm: req.body.passwordConfirm
+    })
 
     const token = signToken(newUser._id)
 
@@ -96,7 +95,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 
 exports.restrictTo = (...roles) => {
     return (req, res, next) => {
-        //roles is an array ['admin', 'lead-guide']
+        //roles is an array ['admin', 'lead-guide'] thats why we need to use closer
         if (!roles.includes(req.user.role)) {
             return next(new AppError('You have no permission for this action!', 403))
         }
@@ -106,18 +105,15 @@ exports.restrictTo = (...roles) => {
 
 exports.forgotPassword = catchAsync(async (req, res, next) => {
     //1) Get user based on POSTed email
-    const user = await User.findOne({
-        email: req.body.email
-    })
+    const user = await User.findOne({ email: req.body.email })
     if (!user) {
         return next(new AppError('There is no user with that email!', 404))
     }
     //2)Generate the random token
     const resetToken = user.createPasswordResetToken()
 
-    await user.save({
-        validateBeforeSave: false
-    }) // this turns off all validators
+    await user.save({ validateBeforeSave: false }) // this turns off all validators
+
     //3)Send it to user
     const resetURL = `${req.protocol}://${req.get('host')}/api/v1/users/resetPassword/${resetToken}`
 
