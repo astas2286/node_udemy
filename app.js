@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 
 const AppError = require('./utils/appError')
@@ -9,19 +10,27 @@ const userRouter = require('./routes/userRoutes');
 
 const app = express();
 
-// 1 - MIDDLEWARES
+// 1 - GLOBAL MIDDLEWARES
+// setting security HTTP headers
+app.use(helmet())
+
+//Development logging
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-const limiter = rateLimit({ //to avoid ddos increase to 100 requests per hour
-  max: 2,
+//Limit reqests to 100 requests per hour from the same IP (to avoid ddos atacks)
+const limiter = rateLimit({ 
+  max: 100,
   windowMs: 60 * 60 * 1000,
   message: 'Too many requests from this IP, please try again later '
 })
 app.use('/api', limiter)
 
-app.use(express.json());
+// body parser, to read data from body to req.body
+app.use(express.json({ limit: '10kb'})); // we can limit size of body
+
+// serving statis files
 app.use(express.static(`${__dirname}/public`));
 
 app.use((req, res, next) => {
