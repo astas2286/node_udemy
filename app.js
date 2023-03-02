@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
+const hpp = require('hpp');
 
 const AppError = require('./utils/appError')
 const globalErrorHandler = require('./controllers/errorController')
@@ -36,6 +37,11 @@ app.use(express.json({ limit: '10kb'})); // we can limit size of body
 app.use(mongoSanitize())
 // data sanitization against XSS
 app.use(xss())
+
+// prevent parameter pollution (if query is ?sort=duration&sort=price will sort only for the last paramter: price)
+app.use(hpp({
+  whitelist: ['duration', 'maxGroupSize', 'ratingsAverage', 'ratingsQuantity', 'price', 'difficulty']
+}))
 
 // serving statis files
 app.use(express.static(`${__dirname}/public`));
