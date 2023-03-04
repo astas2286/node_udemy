@@ -155,6 +155,14 @@ tourSchema.pre(/^find/, function (next) {
   next()
 })
 
+tourSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'guides',
+    select: '-__v -passwordChangedAt' //to exclude some data that we don`t want to recieve
+  })
+  next()
+})
+
 tourSchema.post(/^find/, function (docs, next) {
   next()
 })
