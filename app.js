@@ -23,7 +23,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 //Limit reqests to 100 requests per hour from the same IP (to avoid ddos atacks)
-const limiter = rateLimit({ 
+const limiter = rateLimit({
   max: 100,
   windowMs: 60 * 60 * 1000,
   message: 'Too many requests from this IP, please try again later '
@@ -31,7 +31,7 @@ const limiter = rateLimit({
 app.use('/api', limiter)
 
 // body parser, to read data from body to req.body
-app.use(express.json({ limit: '10kb'})); // we can limit size of body
+app.use(express.json({ limit: '10kb' })); // we can limit size of body
 
 // data sanitization against NoSQL query injections
 app.use(mongoSanitize())
