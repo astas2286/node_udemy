@@ -32,18 +32,18 @@ const reviewSchema = new mongoose.Schema({
     })
 
 reviewSchema.pre(/^find/, function (next) {
-    this.populate({
-        path: 'tour',
-        select: 'name' //to include only name
-    })
-    next()
-})
+    // this.populate({
+    //     path: 'tour',
+    //     select: 'name' //to include only name
+    // }).populate({
+    //     path: 'user',
+    //     select: 'name photo' //to include only name & photo
+    // })
 
-reviewSchema.pre(/^find/, function (next) {
     this.populate({
-        path: 'user',
-        select: 'name photo' //to include only name & photo
-    })
+            path: 'user',
+            select: 'name photo' //to include only name & photo
+        })
     next()
 })
 
