@@ -5,6 +5,8 @@ const AppError = require('../utils/appError')
 const Tour = require('./../models/tourModel')
 const APIFeatures = require('./../utils/apiFeatures')
 const catchAsync = require('./../utils/catchAsync')
+const factory = require('./../controllers/handlerFactory')
+
 
 exports.aliasTopTours = (req, res, next) => {
     req.query.limit = '5'
@@ -78,19 +80,21 @@ exports.updateTour = catchAsync(async (req, res, next) => {
     })
 })
 
-exports.deleteTour = catchAsync(async (req, res, next) => {
-    const tour = await Tour.findByIdAndDelete(req.params.id)
-    // don`t need to save in a const, we don`t send anything to the client
+exports.deleteTour = factory.deleteOne(Tour)
 
-    if (!tour) {
-        return next(new AppError('No tour found with that ID', 404))
-    }
+// exports.deleteTour = catchAsync(async (req, res, next) => {
+//     const tour = await Tour.findByIdAndDelete(req.params.id)
+//     // don`t need to save in a const, we don`t send anything to the client
 
-    res.status(204).json({
-        status: 'success',
-        data: null
-    })
-})
+//     if (!tour) {
+//         return next(new AppError('No tour found with that ID', 404))
+//     }
+
+//     res.status(204).json({
+//         status: 'success',
+//         data: null
+//     })
+// })
 
 exports.getTourStats = catchAsync(async (req, res, next) => {
     const stats = await Tour.aggregate([{
@@ -103,33 +107,17 @@ exports.getTourStats = catchAsync(async (req, res, next) => {
     {
         $group: {
             // _id: '$ratingsAverage', you can use any parameter
-            _id: {
-                $toUpper: '$difficulty'
-            },
-            numTours: {
-                $sum: 1
-            },
-            numRatings: {
-                $sum: '$ratingsQuantity'
-            },
-            avgRating: {
-                $avg: '$ratingsAverage'
-            },
-            avgPrice: {
-                $avg: '$price'
-            },
-            minPrice: {
-                $min: '$price'
-            },
-            maxPrice: {
-                $max: '$price'
-            }
+            _id: { $toUpper: '$difficulty' },
+            numTours: { $sum: 1 },
+            numRatings: { $sum: '$ratingsQuantity' },
+            avgRating: { $avg: '$ratingsAverage' },
+            avgPrice: { $avg: '$price' },
+            minPrice: { $min: '$price' },
+            maxPrice: { $max: '$price' }
         }
     },
     {
-        $sort: {
-            avgPrice: 1
-        }
+        $sort: { avgPrice: 1 }
     }
         // , We can exclude results with "EASY" id with $match
         // {
@@ -163,15 +151,9 @@ exports.getMonthlyPlan = catchAsync(async (req, res, next) => {
     },
     {
         $group: {
-            _id: {
-                $month: '$startDates'
-            },
-            numTourStarts: {
-                $sum: 1
-            },
-            tours: {
-                $push: '$name'
-            }
+            _id: { $month: '$startDates' },
+            numTourStarts: { $sum: 1 },
+            tours: { $push: '$name' }
         }
     },
     {
