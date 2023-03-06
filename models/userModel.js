@@ -49,6 +49,7 @@ const userSchema = new mongoose.Schema({
     }
 })
 
+//comment code below if you importing the user data
 userSchema.pre('save', async function (next) {
     // Only runs this function if password was actually modified while user is logged in
     if (!this.isModified('password')) return next()
@@ -68,6 +69,7 @@ userSchema.pre('save', async function (next) {
     this.passwordChangedAt = Date.now() - 1000 // 1 sec is for token to be created
     next()
 })
+//comment code above if you importing the user data
 
 userSchema.pre(/^find/, function (next) {
     this.find({ active: { $ne: false } }) // to show only active users
