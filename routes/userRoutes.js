@@ -9,11 +9,20 @@ router.post('/login', authController.login)
 router.post('/forgotPassword', authController.forgotPassword)
 router.patch('/resetPassword/:token', authController.resetPassword)
 
-router.patch('/updateMyPassword/:token', authController.protect, authController.updatePassword)
+router.use(authController.protect) // we start authController.protect to protect all middlewares below 
+// if user is not authinticated then middlewares below won`t be called
 
-router.get('/me', authController.protect, userController.getMe, userController.getUser)
-router.patch('/updateMe', authController.protect, userController.updateMe)
-router.delete('/deleteMe', authController.protect, userController.deleteMe) //user is actually not deleted, but it`s ok to use DELETE http method here
+router.patch('/updateMyPassword/:token', authController.updatePassword)
+
+router.get('/me',
+    userController.getMe,
+    userController.getUser
+)
+
+router.patch('/updateMe', userController.updateMe)
+router.delete('/deleteMe', userController.deleteMe) //user is actually not deleted, but it`s ok to use DELETE http method here
+
+router.use(authController.restrictTo('admin')) // allows only to admin to use routes bellow
 
 router
     .route('/')
