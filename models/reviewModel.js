@@ -32,6 +32,10 @@ const reviewSchema = new mongoose.Schema({
         toObject: { virtuals: true },
     })
 
+    // each combination of tour+user will be allways unique
+    // it will help to prevent duplicate reviews from one user
+reviewSchema.index({ tour: 1, user: 1 }, { unique: true }) 
+
 reviewSchema.pre(/^find/, function (next) {
     // this.populate({
     //     path: 'tour',
@@ -62,7 +66,6 @@ reviewSchema.statics.calcAverageRatings = async function (tourId) {
             }
         }
     ])
-    console.log(stats)
 
     if (stats.length > 0) {
         await Tour.findByIdAndUpdate(tourId, {
@@ -88,7 +91,6 @@ reviewSchema.post('save', function () {
 
 reviewSchema.pre(/^findOneAnd/, async function (next) {
     this.r = await this.findOne()
-    console.log(this.r)
     next()
 })
 
