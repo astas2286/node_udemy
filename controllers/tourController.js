@@ -169,3 +169,5 @@ exports.getDistances = catchAsync(async (req, res, next) => {
         }
     })
 })
+
+//So do it as it was described in video
