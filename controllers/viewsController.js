@@ -1,6 +1,5 @@
 
 const Tour = require('../models/tourModel')
-const Review = require('../models/reviewModel')
 const cathcAsync = require('../utils/catchAsync')
 
 exports.getOverwiev = cathcAsync(async (req, res) => {
@@ -23,9 +22,8 @@ exports.getTour = cathcAsync(async (req, res) => {
             path: 'reviews',
             fields: 'review rating user'
         })
-
     res.status(200).render('tour', {
-        title: req.params.name,
+        title: `${tour.name} Tour`,
         tour
     })
 })
