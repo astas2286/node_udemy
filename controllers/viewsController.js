@@ -22,7 +22,8 @@ exports.getTour = cathcAsync(async (req, res) => {
             path: 'reviews',
             fields: 'review rating user'
         })
-    res.status(200).render('tour', {
+    res.status(200)
+    .render('tour', {
         title: `${tour.name} Tour`,
         tour
     })
