@@ -1,6 +1,4 @@
 const locations = JSON.parse(document.getElementById('map').dataset.locations)
-console.log(locations);
-
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoic3RhczIyODYiLCJhIjoiY2xmMmE5cTB2MDFlNDNybnQ2MnZvZ3YxbiJ9.h3MMA6YMxaAREeqpY1ZrJg'
 var map = new mapboxgl.Map({

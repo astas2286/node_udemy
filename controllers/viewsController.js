@@ -28,7 +28,7 @@ exports.getTour = cathcAsync(async (req, res, next) => {
         })
 })
 
-exports.getLoginform = (req, res) => {
+exports.getLoginForm = (req, res) => {
     res.status(200).render('login', {
         title: 'Log in to your accuont'
     })
