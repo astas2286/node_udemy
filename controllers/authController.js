@@ -103,6 +103,34 @@ exports.protect = catchAsync(async (req, res, next) => {
     next()
 })
 
+//Only for rendered pages, no errors
+exports.isLoggedIn = catchAsync(async (req, res, next) => {
+    if (req.cookies.jwt) {
+        // 1)verify token
+        const decoded = await promisify(jwt.verify)(
+            req.cookies.jwt,
+            process.env.JWT_SECRET
+        )
+
+        //2) check if user still exists
+        const currentUser = await User.findById(decoded.id)
+        if (!currentUser) {
+            return next()
+        }
+
+        //3) Check if user changed password after the token was issued
+        if (currentUser.changedPasswordAfter(decoded.iat)) {
+            return next()
+        }
+
+        //there is a logged in user
+        res.locals.user = currentUser
+        return next()
+    }
+    //if there is no cookie - there is no user logged and next middleware will be call rightaway
+    next()
+})
+
 exports.restrictTo = (...roles) => {
     return (req, res, next) => {
         //roles is an array ['admin', 'lead-guide'] thats why we need to use closer
