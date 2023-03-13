@@ -48,8 +48,8 @@ const fontSrcUrls = ['fonts.googleapis.com', 'fonts.gstatic.com']
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
-      defaultSrc: ['http:', ],
-      connectSrc: ["'self'", 'http:', 'ws:',...connectSrcUrls],
+      defaultSrc: ['http:'],
+      connectSrc: ["'self'", 'http:', 'ws:', ...connectSrcUrls],
       scriptSrc: ["'self'", ...scriptSrcUrls],
       styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
       workerSrc: ["'self'", 'blob:'],
@@ -75,7 +75,12 @@ const limiter = rateLimit({
 app.use('/api', limiter)
 
 // body parser, to read data from body to req.body
-app.use(express.json({ limit: '10kb' })) // we can limit size of body
+// we can limit size of body
+app.use(express.json({ limit: '10kb' }))
+
+//this added to parse data when we update user on route 'submit-user-data'
+app.use(express.urlencoded({ extended: true, limit: '10kb'}))
+
 // cookieParser is for parsing cookie
 app.use(cookieParser())
 

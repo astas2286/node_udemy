@@ -1,4 +1,5 @@
 const Tour = require('../models/tourModel')
+const User = require('../models/userModel')
 const AppError = require('../utils/appError')
 const cathcAsync = require('../utils/catchAsync')
 
@@ -44,3 +45,18 @@ exports.getAccuont = (req, res) => {
         title: 'Your accuont'
     })
 }
+
+exports.updateUserData = cathcAsync(async (req, res, next) => {
+    const updatedUser = await User.findByIdAndUpdate(req.user.id, {
+        name: req.body.name,
+        email: req.body.email
+    },{
+        new: true,
+        runValidators: true
+    })
+
+    res.status(200).render('account', {
+        title: 'Your accuont',
+        user: updatedUser
+    })
+})
