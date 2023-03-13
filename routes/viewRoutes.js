@@ -4,11 +4,9 @@ const authController = require('../controllers/authController')
 
 const router = express.Router()
 
-// all middlewares are for authenticated users only, thats why we call authController.isLoggedIn here
-router.use(authController.isLoggedIn)
-
-router.get('/', viewsController.getOverwiev)
-router.get('/tour/:slug', viewsController.getTour)
-router.get('/login', viewsController.getLoginForm)
+router.get('/', authController.isLoggedIn, viewsController.getOverwiev)
+router.get('/tour/:slug', authController.isLoggedIn, viewsController.getTour)
+router.get('/login', authController.isLoggedIn, viewsController.getLoginForm)
+router.get('/me', authController.protect, viewsController.getAccuont)
 
 module.exports = router
