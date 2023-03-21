@@ -14,7 +14,7 @@ router.patch('/resetPassword/:token', authController.resetPassword)
 router.use(authController.protect) // we start authController.protect to protect all middlewares below 
 // if user is not authinticated then middlewares below won`t be called
 
-router.patch('/updateMyPassword/:token', authController.updatePassword)
+router.patch('/updateMyPassword', authController.updatePassword)
 
 router.get('/me',
     userController.getMe,

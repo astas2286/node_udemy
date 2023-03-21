@@ -1,22 +1,26 @@
 import axios from 'axios'
 import { showAlert } from './alerts'
 
-export const updateData = async (name, email) => {
+// type is for "password" or "data"
+export const updateSettings = async (data, type) => {
     try {
+        const url = type === 'password'
+            ? 'http://127.0.0.1:8000/api/v1/users/updateMyPassword'
+            : 'http://127.0.0.1:8000/api/v1/users/updateMe'
+
         const res = await axios({
             method: 'PATCH',
-            url: 'http://127.0.0.1:8000/api/v1/users/updateMe/',
-            data: {
-                name,
-                email
-            }
+            url,
+            data
         })
 
         if (res.data.status = 'success') {
-            showAlert('success', 'Data updated succsessfully!')
+            showAlert('success', `${type} updated succsessfully!`)
         }
         console.log(res);
     } catch (error) {
         showAlert('error', error.response.data.message);
     }
 }
+
+// Cast to ObjectId failed for value "updateMyPassword" (type string) at path "_id" for model "User"
