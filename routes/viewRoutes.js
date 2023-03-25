@@ -8,6 +8,7 @@ router.get('/', authController.isLoggedIn, viewsController.getOverwiev)
 router.get('/tour/:slug', authController.isLoggedIn, viewsController.getTour)
 router.get('/login', authController.isLoggedIn, viewsController.getLoginForm)
 router.get('/me', authController.protect, viewsController.getAccuont)
+router.get('/signup', authController.isLoggedIn, viewsController.getSignUpForm)
 
 router.post('/submit-user-data', authController.protect, viewsController.updateUserData)
 
