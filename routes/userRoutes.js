@@ -15,13 +15,8 @@ router.use(authController.protect) // we start authController.protect to protect
 // if user is not authinticated then middlewares below won`t be called
 
 router.patch('/updateMyPassword', authController.updatePassword)
-
-router.get('/me',
-    userController.getMe,
-    userController.getUser
-)
-
-router.patch('/updateMe', userController.updateMe)
+router.get('/me', userController.getMe, userController.getUser)
+router.patch('/updateMe', userController.uploadUserPhoto, userController.updateMe)
 router.delete('/deleteMe', userController.deleteMe) //user is actually not deleted, but it`s ok to use DELETE http method here
 
 router.use(authController.restrictTo('admin')) // allows only to admin to use routes bellow
