@@ -7,6 +7,7 @@ const mongoSanitize = require('express-mongo-sanitize')
 const xss = require('xss-clean')
 const hpp = require('hpp')
 const cookieParser = require('cookie-parser')
+const cors = require('cors');
 
 const AppError = require('./utils/appError')
 const globalErrorHandler = require('./controllers/errorController')
@@ -17,12 +18,22 @@ const viewRouter = require('./routes/viewRoutes')
 
 const app = express()
 
+app.enable('trust proxy');
+
 app.set('view engine', 'pug')
 app.set('views', path.join(__dirname, 'views'))
 
 // 1 - GLOBAL MIDDLEWARES
 // serving statis files
 app.use(express.static(path.join(__dirname, 'public')))
+
+/* Implement CORS */
+// use cors before all route definitions
+app.use(cors());
+// app.use(cors({ origin: 'http://127.0.0.1:8000', credentials: 'true' }));
+
+// To allow complex requests like PUT, PATCH, DELETE
+app.options('*', cors());
 
 // setting security HTTP headers
 // app.use(helmet()) //- helmet itself is blocking API request
