@@ -16,7 +16,12 @@ router.use(authController.protect) // we start authController.protect to protect
 
 router.patch('/updateMyPassword', authController.updatePassword)
 router.get('/me', userController.getMe, userController.getUser)
-router.patch('/updateMe', userController.uploadUserPhoto, userController.updateMe)
+router.patch(
+    '/updateMe', 
+    userController.uploadUserPhoto, 
+    userController.resizeUserPhoto,
+    userController.updateMe
+    )
 router.delete('/deleteMe', userController.deleteMe) //user is actually not deleted, but it`s ok to use DELETE http method here
 
 router.use(authController.restrictTo('admin')) // allows only to admin to use routes bellow
