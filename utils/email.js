@@ -14,8 +14,14 @@ module.exports = class Email {
 
     newTransport() {
         if (process.env.NODE_ENV === 'production') {
-            // Sendgrid
-            return 1
+            // we use Sendgrid, so we kdon`t need to specify SMTP and port. Just put service: 'SendGrid' in nodemailer
+            return nodemailer.createTransport({
+                service: 'SendGrid',
+                auth:{
+                    user: process.env.SENDGRID_USERNAME,
+                    pass: process.env.SENDGRID_PASSWORD 
+                }
+            })
         }
 
         return nodemailer.createTransport({

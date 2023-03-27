@@ -12173,6 +12173,7 @@ var updateSettings = /*#__PURE__*/function () {
 // Cast to ObjectId failed for value "updateMyPassword" (type string) at path "_id" for model "User"
 exports.updateSettings = updateSettings;
 },{"axios":"../../node_modules/axios/index.js","./alerts":"alerts.js"}],"signup.js":[function(require,module,exports) {
+var define;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12193,26 +12194,27 @@ var signup = /*#__PURE__*/function () {
       while (1) switch (_context.prev = _context.next) {
         case 0:
           _context.prev = 0;
-          _context.next = 3;
+          console.log("development");
+          _context.next = 4;
           return (0, _axios.default)({
             method: 'POST',
-            url: 'http://127.0.0.1:8000/api/v1/users/signup',
+            url: '/api/v1/users/signup',
             data: {
               name: name,
               email: email,
               password: password,
               passwordConfirm: passwordConfirm
-            }
+            },
+            withCredentials: true
           });
-        case 3:
+        case 4:
           res = _context.sent;
-          if (res.data.status === 'success') {
-            (0, _alerts.showAlert)('success', 'Signed up succsessfully!');
+          if (res.status === 201) {
+            (0, _alerts.showAlert)('success', 'Signed Up Successfully!');
             window.setTimeout(function () {
-              location.assign('/me');
-            }, 1500);
+              location.assign('/');
+            }, 1100);
           }
-          console.log(res);
           _context.next = 11;
           break;
         case 8:
@@ -12475,7 +12477,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51793" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54477" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
