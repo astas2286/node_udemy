@@ -3,6 +3,7 @@ import { displayMap } from './mapbox'
 import { login, logout } from './login'
 import { updateSettings } from './updateSettings'
 import { signup } from './signup'
+import { bookTour } from './stripe'
 
 //DOM elements
 const mapBox = document.getElementById('map')
@@ -11,6 +12,7 @@ const logoutBtn = document.querySelector('.nav__el--logout')
 const userDataForm = document.querySelector('.form-user-data')
 const userPasswordForm = document.querySelector('.form-user-password')
 const userSignUpForm = document.querySelector('.form--signup')
+const bookBtn = document.getElementById('book-tour')
 
 //Delegation
 if (mapBox) {
@@ -33,9 +35,9 @@ if (userDataForm) {
     userDataForm.addEventListener('submit', e => {
         e.preventDefault()
         const form = new FormData()
-        form.append('name',document.getElementById('name').value)
-        form.append('email',document.getElementById('email').value)
-        form.append('photo',document.getElementById('photo').files[0])
+        form.append('name', document.getElementById('name').value)
+        form.append('email', document.getElementById('email').value)
+        form.append('photo', document.getElementById('photo').files[0])
         console.log(form);
 
         updateSettings(form, 'data')
@@ -67,5 +69,13 @@ if (userSignUpForm) {
         const name = document.getElementById('name').value
         const passwordConfirm = document.getElementById('password-confirm').value
         signup(name, email, password, passwordConfirm)
+    })
+}
+
+if (bookBtn) {
+    bookBtn.addEventListener('click', e => {
+        e.target.textContent = 'Processing...'
+        const { tourId } = e.target.dataset
+        bookTour(tourId)
     })
 }

@@ -8,6 +8,7 @@ const xss = require('xss-clean')
 const hpp = require('hpp')
 const cookieParser = require('cookie-parser')
 const cors = require('cors');
+const crypto = require('crypto');
 
 const AppError = require('./utils/appError')
 const globalErrorHandler = require('./controllers/errorController')
@@ -42,12 +43,14 @@ const scriptSrcUrls = [
   'https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js',
   'https://api.tiles.mapbox.com/',
   'https://api.mapbox.com/',
+  'https://js.stripe.com/v3/'
 ]
 const styleSrcUrls = [
   'https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js',
   'https://api.mapbox.com/',
   'https://api.tiles.mapbox.com/',
   'https://fonts.googleapis.com/',
+  'https://js.stripe.com/v3/'
 ]
 const connectSrcUrls = [
   'https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js',
@@ -55,14 +58,22 @@ const connectSrcUrls = [
   'https://a.tiles.mapbox.com/',
   'https://b.tiles.mapbox.com/',
   'https://events.mapbox.com/',
+  'https://js.stripe.com/v3/'
 ]
+
+// If you need to include inline scripts in your application, you can use the nonce parameter to allow only scripts that include a specific nonce value.
+// Generate a random 16-byte value
+const nonceBytes = crypto.randomBytes(16);
+// Convert the bytes to a Base64-encoded string
+const someNonceValue = nonceBytes.toString('base64');
+
 const fontSrcUrls = ['fonts.googleapis.com', 'fonts.gstatic.com']
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
       defaultSrc: ['http:'],
-      connectSrc: ["'self'", 'http:', 'ws:', ...connectSrcUrls],
-      scriptSrc: ["'self'", ...scriptSrcUrls],
+      connectSrc: ["'self'", 'http:', 'https:', 'ws:', ...connectSrcUrls],
+      scriptSrc: ["'self'","'unsafe-inline'", `nonce-${someNonceValue}`, ...scriptSrcUrls],
       styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
       workerSrc: ["'self'", 'blob:'],
       objectSrc: [],
