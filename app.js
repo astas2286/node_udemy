@@ -7,8 +7,9 @@ const mongoSanitize = require('express-mongo-sanitize')
 const xss = require('xss-clean')
 const hpp = require('hpp')
 const cookieParser = require('cookie-parser')
-const cors = require('cors');
-const crypto = require('crypto');
+const cors = require('cors')
+const crypto = require('crypto')
+const compression = require('compression')
 
 const AppError = require('./utils/appError')
 const globalErrorHandler = require('./controllers/errorController')
@@ -20,7 +21,7 @@ const viewRouter = require('./routes/viewRoutes')
 
 const app = express()
 
-app.enable('trust proxy');
+app.enable('trust proxy')
 
 app.set('view engine', 'pug')
 app.set('views', path.join(__dirname, 'views'))
@@ -31,11 +32,11 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 /* Implement CORS */
 // use cors before all route definitions
-app.use(cors());
-// app.use(cors({ origin: 'http://127.0.0.1:8000', credentials: 'true' }));
+app.use(cors())
+// app.use(cors({ origin: 'http://127.0.0.1:8000', credentials: 'true' }))
 
 // To allow complex requests like PUT, PATCH, DELETE
-app.options('*', cors());
+app.options('*', cors())
 
 // setting security HTTP headers
 // app.use(helmet()) //- helmet itself is blocking API request
@@ -63,9 +64,9 @@ const connectSrcUrls = [
 
 // If you need to include inline scripts in your application, you can use the nonce parameter to allow only scripts that include a specific nonce value.
 // Generate a random 16-byte value
-const nonceBytes = crypto.randomBytes(16);
+const nonceBytes = crypto.randomBytes(16)
 // Convert the bytes to a Base64-encoded string
-const someNonceValue = nonceBytes.toString('base64');
+const someNonceValue = nonceBytes.toString('base64')
 
 const fontSrcUrls = ['fonts.googleapis.com', 'fonts.gstatic.com']
 app.use(
@@ -123,6 +124,8 @@ app.use(hpp({
     'difficulty'
   ]
 }))
+
+app.use(compression())
 
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString()

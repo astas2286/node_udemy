@@ -29,15 +29,6 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
                 quantity: 1,
             }],
 
-        // this is deprecated in Stripe API
-        // [{
-        //     name: `${tour.name} Tour`,
-        //     description: tour.summary,
-        //     images: [`https://www.natours.dev/img/tours/${tour.imageCover}`],
-        //     amount: tour.price * 100,
-        //     currency: 'usd',
-        //     quantity: 1
-        // }],
         mode: 'payment',
     })
     //3) create session as response

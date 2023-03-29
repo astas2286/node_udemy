@@ -7,7 +7,7 @@ const Review = require('./../../models/reviewModel')
 
 dotenv.config({
     path: './config.env',
-});
+})
 
 const DB = process.env.DATABASE.replace('<PASSWORD>', process.env.DATABASE_PASSWORD)
 
@@ -30,7 +30,7 @@ const importData = async () => {
         await Review.create(reviews)
         console.log('DATA LOADED SUCCESSFULLY!')
     } catch (err) {
-        console.log(err);
+        console.log(err)
     }
     process.exit()
 }
@@ -41,9 +41,9 @@ const deleteData = async () => {
         await Tour.deleteMany()
         await User.deleteMany()
         await Review.deleteMany()
-        console.log('ALL DATA DELETED SUCCESSFULLY!');
+        console.log('ALL DATA DELETED SUCCESSFULLY!')
     } catch (err) {
-        console.log(err);
+        console.log(err)
     }
     process.exit()
 }
@@ -53,5 +53,3 @@ if (process.argv[2] === '--import') {
 } else if (process.argv[2] === '--delete') {
     deleteData()
 }
-
-console.log(process.argv);

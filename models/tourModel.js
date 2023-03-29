@@ -151,7 +151,7 @@ tourSchema.pre('save', async function(next) {
 // })
 
 // tourSchema.post('save', function (doc, next) {
-// console.log(doc);
+// console.log(doc)
 //   next()
 // })
 
@@ -191,7 +191,7 @@ tourSchema.post(/^find/, function (docs, next) {
 //     }
 //   })
 
-//   console.log(this.pipeline());
+//   console.log(this.pipeline())
 //   next()
 // })
 
