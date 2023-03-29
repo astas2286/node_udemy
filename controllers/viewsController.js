@@ -1,5 +1,6 @@
 const Tour = require('../models/tourModel')
 const User = require('../models/userModel')
+const Booking = require('../models/bookingModel')
 const AppError = require('../utils/appError')
 const cathcAsync = require('../utils/catchAsync')
 
@@ -52,11 +53,25 @@ exports.getAccuont = (req, res) => {
     })
 }
 
+exports.getMyTours = cathcAsync(async (req, res) => {
+    //1) find all users bookings
+    const bookings = await Booking.find({ user: req.user.id })
+    //2) find all with the returned IDs
+
+    const tourIDs = bookings.map(el => el.tour.id)
+    const tours = await Tour.find({ _id: { $in: tourIDs } })
+
+    res.status(200).render('overview', {
+        title: 'My tours',
+        tours
+    })
+})
+
 exports.updateUserData = cathcAsync(async (req, res, next) => {
     const updatedUser = await User.findByIdAndUpdate(req.user.id, {
         name: req.body.name,
         email: req.body.email
-    },{
+    }, {
         new: true,
         runValidators: true
     })
