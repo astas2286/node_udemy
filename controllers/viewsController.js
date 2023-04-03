@@ -7,7 +7,7 @@ const cathcAsync = require('../utils/catchAsync')
 exports.alerts = (req, res, next) => {
     const {alert}= req.query
     if(alert === 'booking'){
-        req.locals.alert = "Congrtas! You booking was successfull! If your booking doesn't show up here immidiatly, please come back later."
+        res.locals.alert = "Congrtas! You booking was successfull! If your booking doesn't show up here immidiatly, please come back later."
         next()
     }
 }
