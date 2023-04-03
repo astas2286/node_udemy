@@ -17,7 +17,9 @@ const tourRouter = require('./routes/tourRoutes')
 const userRouter = require('./routes/userRoutes')
 const reviewRouter = require('./routes/reviewRoutes')
 const bookingRouter = require('./routes/bookingRoutes')
+const bookingController = require('./controllers/bookingController')
 const viewRouter = require('./routes/viewRoutes')
+const { application } = require('express')
 
 const app = express()
 
@@ -74,7 +76,7 @@ app.use(
     directives: {
       defaultSrc: ['http:'],
       connectSrc: ["'self'", 'http:', 'https:', 'ws:', ...connectSrcUrls],
-      scriptSrc: ["'self'","'unsafe-inline'", `nonce-${someNonceValue}`, ...scriptSrcUrls],
+      scriptSrc: ["'self'", "'unsafe-inline'", `nonce-${someNonceValue}`, ...scriptSrcUrls],
       styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
       workerSrc: ["'self'", 'blob:'],
       objectSrc: [],
@@ -98,12 +100,18 @@ const limiter = rateLimit({
 })
 app.use('/api', limiter)
 
+app.post(
+  '/webhook-checkout',
+  express.raw({ type: 'application/json' }),
+  bookingController.webhookCheckout
+)
+
 // body parser, to read data from body to req.body
 // we can limit size of body
 app.use(express.json({ limit: '10kb' }))
 
 //this added to parse data when we update user on route 'submit-user-data'
-app.use(express.urlencoded({ extended: true, limit: '10kb'}))
+app.use(express.urlencoded({ extended: true, limit: '10kb' }))
 
 // cookieParser is for parsing cookie
 app.use(cookieParser())
