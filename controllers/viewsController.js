@@ -5,11 +5,11 @@ const AppError = require('../utils/appError')
 const cathcAsync = require('../utils/catchAsync')
 
 exports.alerts = (req, res, next) => {
-    const {alert}= req.query
-    if(alert === 'booking'){
+    const { alert } = req.query
+    if (alert === 'booking')
         res.locals.alert = "Congrtas! You booking was successfull! If your booking doesn't show up here immidiatly, please come back later."
-        next()
-    }
+
+    next()
 }
 
 exports.getOverwiev = cathcAsync(async (req, res, next) => {
