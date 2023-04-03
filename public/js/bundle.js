@@ -12253,7 +12253,7 @@ var bookTour = /*#__PURE__*/function () {
           _context.prev = 0;
           stripe = Stripe('pk_test_51MqYdHDJgbb5tAFAXkoMk2NG8hWuCWB343qm7ABwADRC5bN2QOTomyNewfGICKO4QdMj3pTNJFatAO4SV9A9Lxzq00KLVTsXXD'); //1) get checkout session from API
           _context.next = 4;
-          return (0, _axios.default)("/api/v1/booking/checkout-session/".concat(tourId));
+          return (0, _axios.default)("/api/v1/bookings/checkout-session/".concat(tourId));
         case 4:
           session = _context.sent;
           _context.next = 7;
@@ -12532,7 +12532,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65528" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51931" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
