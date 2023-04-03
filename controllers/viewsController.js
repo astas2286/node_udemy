@@ -4,6 +4,15 @@ const Booking = require('../models/bookingModel')
 const AppError = require('../utils/appError')
 const cathcAsync = require('../utils/catchAsync')
 
+exports.alerts = (req, res, next) => {
+    const {alert}= req.query
+    if(alert === 'booking'){
+        req.locals.alert = `Congrtas! You booking was successfull!\n 
+        If your booking doesn\`t show up here immidiatly, please come back later.`
+        next()
+    }
+}
+
 exports.getOverwiev = cathcAsync(async (req, res, next) => {
     //1) get all tour ata from collection
     const tours = await Tour.find()
