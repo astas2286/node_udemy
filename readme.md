@@ -3,11 +3,11 @@
 You can check out my app on https://natoursafanasiev.herokuapp.com/ Later it will be redeployed on Cyclic and link will be updated
 
 ### Images
-![Image1](img1.jpg)
-![Image1](img2.jpg)
-![Image1](img3.jpg)
-![Image4](img4.jpg)
-![Image5](img5.jpg)
+![Image1](docs/media/img1.jpg)
+![Image1](docs/media/img2.jpg)
+![Image1](docs/media/img3.jpg)
+![Image4](docs/media/img4.jpg)
+![Image5](docs/media/img5.jpg)
 
 ## Below is a list of features for the Full Stack CRUD App:
 
