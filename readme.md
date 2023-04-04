@@ -1,6 +1,6 @@
-#### Natours is a comprehensive web application that enables to sign up users, change users password and other data, book tours and check booked tours on 'my bookings' page. The application is available at https://natoursafanasiev.herokuapp.com/ and includes multiple routes, admin routes, user authentication via JWT and cookie storage, and a payment page powered by Stripe. Additionally, the application has a custom back-end API with sorting, finding, and pagination capabilities.#
+**Natours** is a comprehensive web application that enables to sign up users, change users password and other data, book tours and check booked tours on 'my bookings' page. The application includes multiple routes, admin routes, user authentication via JWT and cookie storage, and a payment page powered by Stripe. Additionally, the application has a custom back-end API with sorting, finding, and pagination capabilities.#
 
-### You can check out my app on https://natoursafanasiev.herokuapp.com/ Later it will be redeployed on Cyclic and link will be updated
+You can check out my app on https://natoursafanasiev.herokuapp.com/ Later it will be redeployed on Cyclic and link will be updated
 
 ### Images
 ![Image1](img1.jpg)
