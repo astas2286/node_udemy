@@ -1,4 +1,4 @@
-**Natours** is a comprehensive web application that enables to sign up users, change users password and other data, book tours and check booked tours on 'my bookings' page. The application includes multiple routes, admin routes, user authentication via JWT and cookie storage, and a payment page powered by Stripe. Additionally, the application has a custom back-end API with sorting, finding, and pagination capabilities.#
+**Natours** is a comprehensive web application that enables to sign up users, change users password and other data, book tours and check booked tours on 'my bookings' page. The application includes multiple routes, admin routes, user authentication via JWT and cookie storage, and a payment page powered by Stripe. Additionally, the application has a custom back-end API with sorting, finding, and pagination capabilities.
 
 You can check out my app on https://natoursafanasiev.herokuapp.com/ Later it will be redeployed on Cyclic and link will be updated
 
@@ -43,6 +43,7 @@ You can check out my app on https://natoursafanasiev.herokuapp.com/ Later it wil
 2. cd into the directory
 3. run ```npm i```
 4. run ```npm start```
+5. Use 4242 4242 4242 4242 credit card number to purchase tour
 
 ### To edit the application
 1. Clone the repository
